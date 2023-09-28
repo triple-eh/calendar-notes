@@ -1,0 +1,33 @@
+# Node.js (common for both frontend and backend)
+node_modules/
+npm-debug.log
+package-lock.json
+yarn-error.log
+yarn.lock
+
+# Backend-specific
+backend/.env  # Environment variables
+backend/notes/  # If you don't want to version the markdown notes
+backend/dist/  # If you're compiling TypeScript to JavaScript
+
+# Frontend-specific (React/TypeScript)
+frontend/build/
+frontend/.env
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+
+# TypeScript (for both frontend and backend)
+*.tsbuildinfo
+
+# Editors and IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*.bak
+
+# OS generated
+.DS_Store
+Thumbs.db
