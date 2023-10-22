@@ -4,6 +4,7 @@ npm-debug.log
 package-lock.json
 yarn-error.log
 yarn.lock
+.env
 
 # Backend-specific
 backend/.env  # Environment variables
