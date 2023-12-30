@@ -5,6 +5,7 @@ package-lock.json
 yarn-error.log
 yarn.lock
 .env
+Learnings.md
 
 # Backend-specific
 backend/.env  # Environment variables

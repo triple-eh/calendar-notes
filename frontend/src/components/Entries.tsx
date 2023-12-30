@@ -1,4 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import {formatDateString} from "../utils/utils";
 
 function EntriesComponent() {
     const [events, setEvents]: [any, any] = useState([]);
@@ -26,14 +31,20 @@ function EntriesComponent() {
     }, []);
 
     return (
-        <div>
-            {events.map((event: any, index: any) => (
-                <div key={index}>
-                    <h3>{event.name}</h3>
-                    <p>{event.date}</p>
-                </div>
+        <Box sx={{ margin: 2 }}>
+            {events.map((event: any, index: number) => (
+                <Card key={index} sx={{ marginBottom: 2, backgroundColor: '#f5f5f5' }}>
+                    <CardContent>
+                        <Typography variant="h6">
+                            {event.name}
+                        </Typography>
+                        <Typography color="textSecondary">
+                            {formatDateString(event.date)}
+                        </Typography>
+                    </CardContent>
+                </Card>
             ))}
-        </div>
+        </Box>
     );
 }
 
