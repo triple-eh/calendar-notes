@@ -9,6 +9,8 @@ import {formatDateString} from "../utils/utils";
 
 function EntriesComponent() {
     const [events, setEvents]: [any, any] = useState([]);
+    const [activeEntryId, setActiveEntryId] = useState(null);
+    const [activeEntryContent, setActiveEntryContent] = useState("Add your notes here...");
 
     useEffect(() => {
         async function fetchCalendarEvents() {
@@ -21,6 +23,7 @@ function EntriesComponent() {
                 }
                 const data = await response.json();
                 setEvents(data);
+                setActiveEntryId(events[0]?.id);
                 return data;
             } catch (error) {
                 console.error('Failed to fetch calendar events:', error);
@@ -32,12 +35,28 @@ function EntriesComponent() {
         })
     }, []);
 
+    const handleCardClick = (event: any) => {
+        setActiveEntryId(event.id);
+        setActiveEntryContent(event.content);
+    };
+
+    const handleEntryUpdate = (content: string): void => {
+        setActiveEntryContent(content);
+        events.find((event: any) => event.id == activeEntryId).content = content;
+    }
+
     return (
         <Box sx={{ flexGrow: 1, margin: 2 }}>
             <Grid container spacing={2}>
                 <Grid item xs={3}>
                     {events.map((event: any, index: any) => (
-                        <Card key={index} sx={{ marginBottom: 2, backgroundColor: '#f5f5f5' }}>
+                        <Card key={index}
+                              sx={{
+                                  marginBottom: 2,
+                                  backgroundColor: event.id === activeEntryId ? '#ADD8E6' : '#f5f5f5',
+                                  cursor: "pointer"
+                                }}
+                                onClick={()=> handleCardClick(event)}>
                             <CardContent>
                                 <Typography variant="h6">
                                     {event.name}
@@ -54,7 +73,8 @@ function EntriesComponent() {
                         label="Notes"
                         multiline
                         rows={22}
-                        defaultValue="Add your notes here..."
+                        value={activeEntryContent}
+                        onChange={(e) => handleEntryUpdate(e.target.value)}
                         variant="outlined"
                         fullWidth
                         sx={{ height: '100%' }}

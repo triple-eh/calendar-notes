@@ -84,8 +84,10 @@ app.get('/api/entries', async (req: any, res) => {
 
     res.json(events.map(event => {
         return {
+            id: event.id,
             name: event.name,
-            timestamp: event.timestamp
+            timestamp: event.timestamp,
+            content: event.content
         };
     }))
 })
