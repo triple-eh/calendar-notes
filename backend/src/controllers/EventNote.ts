@@ -7,10 +7,11 @@ export class EventNote {
     private _timestamp: string;
     private _content: string = "";
 
-    public constructor(name: string, timestamp: string, id: UUID | undefined = undefined) {
+    public constructor(name: string, timestamp: string, id: UUID | undefined = undefined, content: string = "") {
         this._name = name;
         this._timestamp = timestamp;
         this._id = id || crypto.randomUUID();
+        this._content = content;
     }
 
     public get id(): UUID {

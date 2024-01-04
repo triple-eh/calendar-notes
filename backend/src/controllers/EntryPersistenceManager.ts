@@ -27,25 +27,51 @@ export class EntryPersistenceManager {
 
         for (const file of files) {
             const filePath = path.join(this._notesDirectory, file);
-            const content: string = fs.readFileSync(filePath, "utf8");
+            const entry: string = fs.readFileSync(filePath, "utf8");
 
-            const lines: string[] = content.split('\n');
+            const lines: string[] = entry.split('\n');
 
             let name = '';
             let date = '';
+            let content = '';
 
             lines.forEach(line => {
                 if (line.startsWith('//NAME:')) {
                     name = line.replace('//NAME:', '').trim();
                 } else if (line.startsWith('//DATE:')) {
                     date = line.replace('//DATE:', '').trim();
+                } else {
+                    content += line;
                 }
             });
 
-            events.push(new EventNote(name, date, file as UUID));
+            events.push(new EventNote(name, date, file as UUID, content));
         }
 
         return events;
+    }
+
+    public async updateEntryById(id: string, newContent: string): Promise<boolean> {
+        const filePath = path.join(this._notesDirectory, id);
+
+        try {
+            const entry = await fs.promises.readFile(filePath, "utf8");
+            const lines = entry.split('\n');
+
+            let metadata = '';
+            lines.forEach((line: string) => {
+                if (line.startsWith('//NAME:') || line.startsWith('//DATE:')) {
+                    metadata += line + '\n';
+                }
+            });
+
+            const updatedEntry = metadata + '\n' + newContent;
+            await fs.promises.writeFile(filePath, updatedEntry);
+            return true;
+        } catch (error) {
+            console.error('Error updating the entry:', error);
+            return false;
+        }
     }
 
     private _clearDisk(): void {

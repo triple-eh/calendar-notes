@@ -92,6 +92,25 @@ app.get('/api/entries', async (req: any, res) => {
     }))
 })
 
+app.put('/api/entries/:id', async (req, res) => {
+    const entryId = req.params.id;
+    const updatedContent = req.body.content; // assuming the updated content is sent in the request body
+
+    try {
+        const persistenceManager = new EntryPersistenceManager();
+        const result = await persistenceManager.updateEntryById(entryId, updatedContent);
+
+        if (result) {
+            res.status(200).json({ message: "Entry updated successfully" });
+        } else {
+            res.status(404).json({ message: "Entry not found" });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Error updating the entry" });
+    }
+});
+
 app.get('/api/calendar/events', async (req: any, res) => {
     if (!req.user || !req.user.accessToken) {
         return res.status(401).send('Not authorized');
