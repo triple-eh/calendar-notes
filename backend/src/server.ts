@@ -76,7 +76,7 @@ app.get('/auth/google/callback',
     })
 );
 
-app.get('/api/events', async (req: any, res) => {
+app.get('/api/entries', async (req: any, res) => {
     const persistenceManager = new EntryPersistenceManager();
     const events = await persistenceManager.readEvents();
 

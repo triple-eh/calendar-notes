@@ -13,17 +13,13 @@ function EntriesComponent() {
     useEffect(() => {
         async function fetchCalendarEvents() {
             try {
-                // const response = await fetch('http://localhost:5000/api/calendar/events', {
-                //     credentials: 'include'
-                // });
-                const response = await fetch('http://localhost:5000/api/events', {
+                const response = await fetch('http://localhost:5000/api/entries', {
                     credentials: 'include'
                 });
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
                 const data = await response.json();
-                console.log("got back data\n", data);
                 setEvents(data);
                 return data;
             } catch (error) {
