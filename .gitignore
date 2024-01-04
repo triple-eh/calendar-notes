@@ -8,9 +8,9 @@ yarn.lock
 Learnings.md
 
 # Backend-specific
-backend/.env  # Environment variables
-backend/notes/  # If you don't want to version the markdown notes
-backend/dist/  # If you're compiling TypeScript to JavaScript
+backend/.env
+backend/notes/
+backend/dist/
 
 # Frontend-specific (React/TypeScript)
 frontend/build/
