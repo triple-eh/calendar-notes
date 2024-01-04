@@ -5,6 +5,8 @@ import path from 'path';
 import passport from 'passport';
 import crypto from 'crypto';
 import { google } from 'googleapis';
+import {EntryPersistenceManager} from "./controllers/EntryPersistenceManager";
+import {EventNote} from "./controllers/EventNote";
 
 require('dotenv').config();
 
@@ -68,13 +70,26 @@ app.get('/auth/google',
 
 app.get('/auth/google/callback',
     passport.authenticate('google', {
-        successRedirect : 'http://localhost:3000/entries',
+        successRedirect : 'http://localhost:5000/api/calendar/events',
         failureRedirect : '/authFailed',
         failureFlash: 'Invalid Google credentials.'
     })
 );
 
-// TODO fix req: any
+app.get('/api/events', async (req: any, res) => {
+    const persistenceManager = new EntryPersistenceManager();
+    const events = await persistenceManager.readEvents();
+
+    console.log(`returning ${events.length} events`);
+
+    res.json(events.map(event => {
+        return {
+            name: event.name,
+            timestamp: event.timestamp
+        };
+    }))
+})
+
 app.get('/api/calendar/events', async (req: any, res) => {
     if (!req.user || !req.user.accessToken) {
         return res.status(401).send('Not authorized');
@@ -106,13 +121,14 @@ app.get('/api/calendar/events', async (req: any, res) => {
         });
 
 
-        const events = response && response.data.items ? response.data.items.map(event => ({
-            name: event.summary,
-            // @ts-ignore
-            date: event.start.dateTime || event.start.date
-        })) : [];
+        const events: EventNote[] = response && response.data.items ? response.data.items.map(event => {
+            return new EventNote(event.summary as string, (event.start?.dateTime || event.start?.date) as string)
+        }) : [];
 
-        res.json(events);
+        const persistenceManager = new EntryPersistenceManager();
+        persistenceManager.writeAllEvents(events);
+
+        res.redirect("http://localhost:3000/entries");
     } catch (error) {
         console.error('Error fetching calendar events:', error);
         res.status(500).send('Failed to fetch calendar events');
