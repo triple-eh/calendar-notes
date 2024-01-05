@@ -18,4 +18,11 @@ md files.
 
 ### Preview
 
+Current functionality entails:
+* A React front end and Node.js back end
+* Authenticating with an existing Google Account to export calendar entries for the last 2 weeks
+* Saving exported entries in the server as `md` files and displaying them on the front end
+* Adding a note to each entry on the front end
+* Clicking "Save" to persist the changes to the entry to the back end `md` file
+
 ![App preview](./calendar-notes_v1.0.gif)
