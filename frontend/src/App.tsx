@@ -3,7 +3,7 @@ import {
   Routes,
   Route,
 } from 'react-router-dom';
-import GoogleAuthButton from "./components/GoogleAuthButton";
+import HomePage from "./components/HomePage";
 import React from "react";
 import EntriesComponent from "./components/Entries";
 import CssBaseline from '@mui/material/CssBaseline';
@@ -15,7 +15,7 @@ export const App = () => {
           <Router>
             <div className="App">
               <Routes>
-                <Route path="/" element={<GoogleAuthButton />} />
+                <Route path="/" element={<HomePage />} />
                 <Route path="/entries" element={<EntriesComponent />} />  // Replace with your actual Entries component
               </Routes>
             </div>

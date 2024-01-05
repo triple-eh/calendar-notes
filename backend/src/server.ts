@@ -5,8 +5,8 @@ import path from 'path';
 import passport from 'passport';
 import crypto from 'crypto';
 import { google } from 'googleapis';
-import {EntryPersistenceManager} from "./controllers/EntryPersistenceManager";
-import {EventNote} from "./controllers/EventNote";
+import {EntryPersistenceManager} from "./models/EntryPersistenceManager";
+import {EventNote} from "./models/EventNote";
 
 require('dotenv').config();
 
@@ -133,8 +133,11 @@ app.get('/api/calendar/events', async (req: any, res) => {
         const twoWeeksAgo = new Date();
         twoWeeksAgo.setDate(now.getDate() - 14);
 
+        const all = await calendar.calendarList.list();
+        console.log("Calendar\n", all.data.items);
+
         const response = await calendar.events.list({
-            calendarId: 'primary',
+            calendarId: `${process.env.CALENDAR_ID}`,
             timeMin: twoWeeksAgo.toISOString(),
             timeMax: now.toISOString(),
             singleEvents: true,
