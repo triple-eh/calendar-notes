@@ -18,4 +18,4 @@ md files.
 
 ### Preview
 
-[<img src="./frontend/public/logo512.png" width="50%">](./calendar-notes_v1.0.mp4)
+![App preview](./calendar-notes_v1.0.gif)
