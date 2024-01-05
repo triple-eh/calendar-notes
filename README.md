@@ -15,3 +15,7 @@ md files.
 * Download an individual entry
 * Bulk download all entries
 * Introduce MD editor 
+
+### Preview
+
+[<img src="./frontend/public/logo512.png" width="50%">](./calendar-notes_v1.0.mp4)

@@ -48,6 +48,8 @@ export class EntryPersistenceManager {
             events.push(new EventNote(name, date, file as UUID, content));
         }
 
+        events.sort((a: EventNote, b: EventNote) => Date.parse(a.timestamp) - Date.parse(b.timestamp));
+
         return events;
     }
 
